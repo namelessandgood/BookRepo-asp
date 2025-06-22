@@ -223,3 +223,4 @@ D:\toporepo\asp\obj\Debug\net9.0\BooksArchivingSystem.genruntimeconfig.cache
 D:\toporepo\asp\obj\Debug\net9.0\ref\BooksArchivingSystem.dll
 D:\toporepo\asp\obj\Debug\net9.0\compressed\sxti3ib6p6-pnq7sszggn.gz
 D:\toporepo\asp\obj\Debug\net9.0\compressed\stykrcfqp4-ikzdug77gq.gz
+D:\toporepo\asp\obj\Debug\net9.0\BooksArchivingSystem.sourcelink.json
