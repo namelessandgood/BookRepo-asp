@@ -1,0 +1,296 @@
+@model BooksArchivingSystem.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@section Styles {
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #a5b4fc 0%, #c7d2fe 50%, #ddd6fe 100%);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #334155;
+        }
+
+        .stats-card {
+            background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid #f4f4f5;
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #86efac 0%, #bbf7d0 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: #064e3b;
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #334155;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-label {
+            color: #64748b;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid #f4f4f5;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #7dd3fc 0%, #a7f3d0 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: #0c4a6e;
+        }
+
+        .recent-books-card {
+            background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+            border: 1px solid #f4f4f5;
+        }
+
+        .book-item {
+            padding: 1rem;
+            border-bottom: 1px solid #f4f4f5;
+            transition: all 0.3s ease;
+        }
+
+        .book-item:hover {
+            background: linear-gradient(135deg, #fefefe 0%, #f9fafb 100%);
+            transform: translateX(5px);
+        }
+
+        .book-item:last-child {
+            border-bottom: none;
+        }
+
+        .welcome-text {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+    </style>
+}
+
+<div class="page-content">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1 class="welcome-text">Welcome to BookArchive</h1>
+        <p class="hero-subtitle">Your modern digital library management system</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="/Books" class="btn btn-primary btn-lg">Browse Books</a>
+            <a href="/Books/Create" class="btn btn-outline-primary btn-lg">Add New Book</a>
+        </div>
+    </div> <!-- Statistics Cards -->
+    <div class="row mb-5">
+        <div class="col-md-3 mb-4">
+            <div class="stats-card">
+                <div class="stats-icon">
+                    <i class="bi bi-book-fill"></i>
+                </div>
+                <div class="stats-number">@Model.TotalBooks</div>
+                <div class="stats-label">Total Books</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stats-card">
+                <div class="stats-icon" style="background: linear-gradient(135deg, #7dd3fc 0%, #a7f3d0 100%);">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div class="stats-number">@Model.TotalAuthors</div>
+                <div class="stats-label">Active Authors</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stats-card">
+                <div class="stats-icon"
+                    style="background: linear-gradient(135deg, #fde68a 0%, #fef3c7 100%); color: #92400e;">
+                    <i class="bi bi-tags-fill"></i>
+                </div>
+                <div class="stats-number">@Model.TotalCategories</div>
+                <div class="stats-label">Categories</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stats-card">
+                <div class="stats-icon"
+                    style="background: linear-gradient(135deg, #fca5a5 0%, #fecaca 100%); color: #991b1b;">
+                    <i class="bi bi-calendar-plus-fill"></i>
+                </div>
+                <div class="stats-number">@Model.BooksAddedThisMonth</div>
+                <div class="stats-label">Added This Month</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Recent Books -->
+        <div class="col-lg-6 mb-4">
+            <div class="card recent-books-card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-clock-history me-2"></i>Recently Added Books
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.RecentBooks.Any())
+                    {
+                        @foreach (var book in Model.RecentBooks.Take(5))
+                        {
+                            <div class="book-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                                            style="width: 40px; height: 40px; background: linear-gradient(135deg, #a5b4fc 0%, #c7d2fe 100%) !important; color: #334155 !important;">
+                                            <i class="bi bi-book-fill"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1">
+                                            <a href="@Url.Action("Details", "Books", new { id = book.Id })"
+                                                class="text-decoration-none text-dark">
+                                                @book.Title
+                                            </a>
+                                        </h6>
+                                        <small class="text-muted">
+                                            @if (book.Authors.Any())
+                                            {
+                                                <span>by @string.Join(", ", book.Authors.Select(a => a.Name))</span>
+                                                <span> • </span>
+                                            }
+                                            <span>Added @book.CreatedAt.ToString("MMM dd, yyyy")</span>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="book-item text-center">
+                            <div class="text-muted">
+                                <i class="bi bi-inbox me-2"></i>No books added yet
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer text-center">
+                    <a href="@Url.Action("Index", "Books")" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-arrow-right me-1"></i>View All Books
+                    </a>
+                </div>
+            </div>
+        </div> <!-- Quick Actions -->
+        <div class="col-lg-6 mb-4">
+            <div class="row h-100">
+                <div class="col-12 mb-3">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-plus-circle-fill"></i>
+                        </div>
+                        <h5>Add New Book</h5>
+                        <p class="text-muted mb-3">Quickly add a new book to your collection with our easy-to-use form.
+                        </p>
+                        <a href="@Url.Action("Create", "Books")" class="btn btn-primary">
+                            <i class="bi bi-plus me-1"></i>Add Book
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <h5>Search & Filter</h5>
+                        <p class="text-muted mb-3">Find exactly what you're looking for with powerful search and
+                            filtering.</p>
+                        <a href="@Url.Action("Index", "Books")" class="btn btn-secondary">
+                            <i class="bi bi-collection me-1"></i>Browse Collection
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- Feature Overview -->
+    <div class="row mt-5">
+        <div class="col-md-4 mb-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+                <h5>Analytics</h5>
+                <p class="text-muted">Track your reading progress and library growth with detailed analytics and
+                    insights.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-tags-fill"></i>
+                </div>
+                <h5>Categories</h5>
+                <p class="text-muted">Organize your books with customizable categories and tags for easy management.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-phone-fill"></i>
+                </div>
+                <h5>Responsive</h5>
+                <p class="text-muted">Access your library from any device with our fully responsive and modern
+                    interface.</p>
+            </div>
+        </div>
+    </div>
+</div>

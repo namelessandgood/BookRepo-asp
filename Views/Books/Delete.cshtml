@@ -1,0 +1,96 @@
+@model BooksArchivingSystem.Business.DTOs.BookDto
+
+@{
+    ViewData["Title"] = "Delete Book";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-trash me-2"></i>Delete Book
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <strong>Warning!</strong> Are you sure you want to delete this book? This action cannot be undone.
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="mb-3">@Model.Title</h5>
+                        
+                        @if (Model.Authors.Any())
+                        {
+                            <p class="mb-2">
+                                <strong>Author(s):</strong> @string.Join(", ", Model.Authors.Select(a => a.Name))
+                            </p>
+                        }
+                        
+                        @if (!string.IsNullOrEmpty(Model.Publisher))
+                        {
+                            <p class="mb-2">
+                                <strong>Publisher:</strong> @Model.Publisher
+                            </p>
+                        }
+                        
+                        @if (Model.PublicationDate.HasValue)
+                        {
+                            <p class="mb-2">
+                                <strong>Publication Date:</strong> @Model.PublicationDate.Value.ToString("MMMM dd, yyyy")
+                            </p>
+                        }
+                        
+                        @if (!string.IsNullOrEmpty(Model.ISBN))
+                        {
+                            <p class="mb-2">
+                                <strong>ISBN:</strong> @Model.ISBN
+                            </p>
+                        }
+                        
+                        @if (!string.IsNullOrEmpty(Model.CategoryName))
+                        {
+                            <p class="mb-2">
+                                <strong>Category:</strong> <span class="badge bg-secondary">@Model.CategoryName</span>
+                            </p>
+                        }
+                        
+                        @if (Model.Pages > 0)
+                        {
+                            <p class="mb-2">
+                                <strong>Pages:</strong> @Model.Pages
+                            </p>
+                        }
+                        
+                        @if (!string.IsNullOrEmpty(Model.Description))
+                        {
+                            <div class="mb-3">
+                                <strong>Description:</strong>
+                                <p class="text-muted">@Model.Description</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+                
+                <form asp-action="Delete" method="post" class="d-flex justify-content-between">
+                    <input asp-for="Id" type="hidden" />
+                    
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>Cancel
+                    </a>
+                    
+                    <div>
+                        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-info me-2">
+                            <i class="bi bi-eye me-1"></i>View Details
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-2"></i>Delete Book
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

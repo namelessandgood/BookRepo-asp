@@ -1,0 +1,52 @@
+@model BooksArchivingSystem.Business.DTOs.CategoryDto
+
+@{
+    ViewData["Title"] = $"Category - {Model.Name}";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-tag me-2"></i>@Model.Name
+                </h4>
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <div class="mb-4">
+                        <h6 class="text-muted">Description</h6>
+                        <p>@Model.Description</p>
+                    </div>
+                }
+
+                <div class="mb-3">
+                    <h6 class="text-muted">Created</h6>
+                    <p><i class="bi bi-calendar me-2"></i>@Model.CreatedAt.ToString("MMMM dd, yyyy 'at' hh:mm tt")</p>
+                </div>
+            </div>
+            <div class="card-footer bg-light">
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>Back to List
+                    </a>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
+                    {
+                        <div>
+                            <a asp-controller="Books" asp-action="Index" asp-route-categoryId="@Model.Id" class="btn btn-info me-2">
+                                <i class="bi bi-book me-1"></i>View Books
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning me-2">
+                                <i class="bi bi-pencil me-1"></i>Edit
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                                <i class="bi bi-trash me-1"></i>Delete
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

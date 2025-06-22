@@ -1,0 +1,136 @@
+@model BooksArchivingSystem.Business.DTOs.BookDto
+
+@{
+    ViewData["Title"] = "Edit Book";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">
+                    <i class="bi bi-pencil me-2"></i>Edit Book
+                </h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit" method="post">
+                    <input asp-for="Id" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label asp-for="Title" class="form-label">
+                                <i class="bi bi-book me-1"></i>Title *
+                            </label>
+                            <input asp-for="Title" class="form-control" placeholder="Enter book title" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="CategoryId" class="form-label">
+                                <i class="bi bi-tag me-1"></i>Category
+                            </label>
+                            <select asp-for="CategoryId" class="form-select">
+                                <option value="">Select Category</option>
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="AuthorIds" class="form-label">
+                            <i class="bi bi-person me-1"></i>Authors
+                        </label>
+                        <select asp-for="AuthorIds" class="form-select" multiple>
+                            @foreach (var author in ViewBag.Authors)
+                            {
+                                <option value="@author.Id" selected="@(Model.AuthorIds.Contains(author.Id))">
+                                    @author.Name
+                                </option>
+                            }
+                        </select>
+                        <div class="form-text">Hold Ctrl (Cmd on Mac) to select multiple authors</div>
+                        <span asp-validation-for="AuthorIds" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">
+                            <i class="bi bi-file-text me-1"></i>Description
+                        </label>
+                        <textarea asp-for="Description" class="form-control" rows="4" 
+                                  placeholder="Enter book description"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="ISBN" class="form-label">
+                                <i class="bi bi-upc me-1"></i>ISBN
+                            </label>
+                            <input asp-for="ISBN" class="form-control" placeholder="Enter ISBN" />
+                            <span asp-validation-for="ISBN" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Publisher" class="form-label">
+                                <i class="bi bi-building me-1"></i>Publisher
+                            </label>
+                            <input asp-for="Publisher" class="form-control" placeholder="Enter publisher name" />
+                            <span asp-validation-for="Publisher" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="PublicationDate" class="form-label">
+                                <i class="bi bi-calendar me-1"></i>Publication Date
+                            </label>
+                            <input asp-for="PublicationDate" class="form-control" type="date" />
+                            <span asp-validation-for="PublicationDate" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Pages" class="form-label">
+                                <i class="bi bi-file-earmark-text me-1"></i>Pages
+                            </label>
+                            <input asp-for="Pages" class="form-control" type="number" min="1" placeholder="Number of pages" />
+                            <span asp-validation-for="Pages" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Language" class="form-label">
+                                <i class="bi bi-translate me-1"></i>Language
+                            </label>
+                            <input asp-for="Language" class="form-control" placeholder="Enter language" />
+                            <span asp-validation-for="Language" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Cancel
+                        </a>
+                        <div>
+                            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-info me-2">
+                                <i class="bi bi-eye me-1"></i>View Details
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-check-circle me-2"></i>Update Book
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

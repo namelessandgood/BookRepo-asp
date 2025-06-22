@@ -1,0 +1,54 @@
+@model BooksArchivingSystem.Business.DTOs.CategoryDto
+
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="bi bi-pencil me-2"></i>Edit Category</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="CreatedAt" />
+                    
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">
+                            <i class="bi bi-tag me-1"></i>Category Name
+                        </label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">
+                            <i class="bi bi-journal-text me-1"></i>Description
+                        </label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-action="Index" class="btn btn-secondary me-md-2">
+                            <i class="bi bi-arrow-left me-1"></i>Back to List
+                        </a>
+                        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-info me-md-2">
+                            <i class="bi bi-eye me-1"></i>Details
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-save me-1"></i>Update Category
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

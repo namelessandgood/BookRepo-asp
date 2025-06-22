@@ -1,0 +1,193 @@
+@model BooksArchivingSystem.Business.DTOs.BookDto
+
+@{
+    ViewData["Title"] = "Book Details";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-book me-2"></i>@Model.Title
+                </h4>
+            </div>
+            <div class="card-body">
+                @if (Model.Authors.Any())
+                {
+                    <div class="mb-3">
+                        <h6 class="text-muted">
+                            <i class="bi bi-person-fill me-2"></i>Author(s)
+                        </h6>
+                        <p class="h5">@string.Join(", ", Model.Authors.Select(a => a.Name))</p>
+                    </div>
+                }
+                
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <div class="mb-3">
+                        <h6 class="text-muted">
+                            <i class="bi bi-file-text me-2"></i>Description
+                        </h6>
+                        <p>@Model.Description</p>
+                    </div>
+                }
+                
+                <div class="row">
+                    @if (!string.IsNullOrEmpty(Model.Publisher))
+                    {
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted">
+                                <i class="bi bi-building me-2"></i>Publisher
+                            </h6>
+                            <p>@Model.Publisher</p>
+                        </div>
+                    }
+                    
+                    @if (Model.PublicationDate.HasValue)
+                    {
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted">
+                                <i class="bi bi-calendar me-2"></i>Publication Date
+                            </h6>
+                            <p>@Model.PublicationDate.Value.ToString("MMMM dd, yyyy")</p>
+                        </div>
+                    }
+                    
+                    @if (!string.IsNullOrEmpty(Model.ISBN))
+                    {
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted">
+                                <i class="bi bi-upc me-2"></i>ISBN
+                            </h6>
+                            <p>@Model.ISBN</p>
+                        </div>
+                    }
+                    
+                    @if (!string.IsNullOrEmpty(Model.CategoryName))
+                    {
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted">
+                                <i class="bi bi-tag me-2"></i>Category
+                            </h6>
+                            <p>
+                                <span class="badge bg-secondary fs-6">@Model.CategoryName</span>
+                            </p>
+                        </div>
+                    }
+                    
+                    @if (Model.Pages > 0)
+                    {
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted">
+                                <i class="bi bi-file-earmark-text me-2"></i>Pages
+                            </h6>
+                            <p>@Model.Pages pages</p>
+                        </div>
+                    }
+                    
+                    @if (!string.IsNullOrEmpty(Model.Language))
+                    {
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted">
+                                <i class="bi bi-translate me-2"></i>Language
+                            </h6>
+                            <p>@Model.Language</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">
+                    <i class="bi bi-gear me-2"></i>Actions
+                </h6>
+            </div>
+            <div class="card-body">
+                @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
+                {
+                    <div class="d-grid gap-2">
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                            <i class="bi bi-pencil me-2"></i>Edit Book
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                            <i class="bi bi-trash me-2"></i>Delete Book
+                        </a>
+                    </div>
+                    <hr>
+                }
+                
+                <div class="d-grid gap-2">
+                    <a asp-action="Index" class="btn btn-outline-primary">
+                        <i class="bi bi-arrow-left me-2"></i>Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card shadow mt-3">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">
+                    <i class="bi bi-info-circle me-2"></i>Information
+                </h6>
+            </div>
+            <div class="card-body">
+                <small class="text-muted">
+                    <div class="mb-2">
+                        <strong>Added:</strong> @Model.CreatedAt.ToString("MMM dd, yyyy")
+                    </div>
+                    @if (Model.UpdatedAt != Model.CreatedAt)
+                    {
+                        <div class="mb-2">
+                            <strong>Last Updated:</strong> @Model.UpdatedAt.ToString("MMM dd, yyyy")
+                        </div>
+                    }
+                </small>
+            </div>
+        </div>
+        
+        @if (Model.Authors.Any())
+        {
+            <div class="card shadow mt-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0">
+                        <i class="bi bi-people me-2"></i>Author Details
+                    </h6>
+                </div>
+                <div class="card-body">
+                    @foreach (var author in Model.Authors)
+                    {
+                        <div class="mb-3">
+                            <h6 class="mb-1">@author.Name</h6>
+                            @if (!string.IsNullOrEmpty(author.Biography))
+                            {
+                                <p class="small text-muted mb-1">@author.Biography</p>
+                            }
+                            @if (!string.IsNullOrEmpty(author.Nationality))
+                            {
+                                <small class="text-muted">
+                                    <i class="bi bi-geo me-1"></i>@author.Nationality
+                                </small>
+                            }
+                            @if (author.BirthDate.HasValue)
+                            {
+                                <small class="text-muted d-block">
+                                    <i class="bi bi-calendar-event me-1"></i>
+                                    Born: @author.BirthDate.Value.ToString("yyyy")
+                                    @if (author.DeathDate.HasValue)
+                                    {
+                                        <span> - Died: @author.DeathDate.Value.ToString("yyyy")</span>
+                                    }
+                                </small>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

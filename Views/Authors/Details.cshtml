@@ -1,0 +1,70 @@
+@model BooksArchivingSystem.Business.DTOs.AuthorDto
+
+@{
+    ViewData["Title"] = $"Author - {Model.Name}";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-person me-2"></i>@Model.Name
+                </h4>
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrEmpty(Model.Biography))
+                {
+                    <div class="mb-4">
+                        <h6 class="text-muted">Biography</h6>
+                        <p>@Model.Biography</p>
+                    </div>
+                }
+
+                <div class="row">
+                    @if (Model.BirthDate.HasValue)
+                    {
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted">Birth Date</h6>
+                            <p><i class="bi bi-calendar me-2"></i>@Model.BirthDate.Value.ToString("MMMM dd, yyyy")</p>
+                        </div>
+                    }
+
+                    @if (Model.DeathDate.HasValue)
+                    {
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted">Death Date</h6>
+                            <p><i class="bi bi-calendar-x me-2"></i>@Model.DeathDate.Value.ToString("MMMM dd, yyyy")</p>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Nationality))
+                    {
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted">Nationality</h6>
+                            <p><i class="bi bi-globe me-2"></i>@Model.Nationality</p>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="card-footer bg-light">
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>Back to List
+                    </a>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
+                    {
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning me-2">
+                                <i class="bi bi-pencil me-1"></i>Edit
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                                <i class="bi bi-trash me-1"></i>Delete
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
